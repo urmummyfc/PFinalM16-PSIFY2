@@ -8,11 +8,11 @@ app.use(express.json());
 
 // Criação da conexão com a base de dados
 const connection = mysql.createConnection({
-  host: '127.0.0.1',       // Endereço do servidor MySQL
-  user: 'root',            // Músicas do MySQL
-  password: '',            // Senha do MySQL
-  database: 'songs',       // Nome da base de dados
-  port: 3306
+  host: 'mysql-psify-bd-psify.k.aivencloud.com',       // Endereço do servidor MySQL
+  user: 'avnadmin',            // Músicas do MySQL
+  password: 'AVNS_fZxKMqrvqlXzDJmnuGX',            // Senha do MySQL
+  database: 'defaultdb',       // Nome da base de dados
+  port: 28072
 });
 
 app.set(`view engine`, `ejs`);
