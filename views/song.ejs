@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>songs</title>
+    <style>
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        .editar {
+            background-color: #fff;
+            padding: 80px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        button {
+        width: 100%;
+        padding: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+        background-color: lightgreen; 
+        transform: translateY(-2px); 
+        }
+
+
+        button:active {
+        background-color: lightgreen; 
+        transform: translateY(1px); 
+        }
+
+
+        button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <%- include("partials/header") %>
+
+    <hr>
+    <h1>Música ID: <%= song[0].id %></h1>
+
+    <table border="2">
+        <tr>
+            <td>ID</td>
+            <td>Titulo</td>
+            <td>Artista</td>
+            <td>Album</td>
+            <td>Género</td>
+            <td>Duração (segundos)</td>
+            <td>Data de Lançamento</td>
+            <td>Likes</td>
+            <td>Criado a</td>
+        </tr>
+        <td><%=song[0].id%></td>
+        <td><%=song[0].title%></td>
+        <td><%=song[0].artist%></td>
+        <td><%=song[0].album%></td>
+        <td><%=song[0].genre%></td>
+        <td><%=song[0].duration_seconds%></td>
+        <td><%=song[0].release_date%></td>
+        <td><%=song[0].likes%></td>
+        <td><%=song[0].created_at%></td>
+    </tr>
+</table>
+
+ <hr>
+    <h1>Receitas:</h1>
+    <h4>A música gerou: <%= precoLike*song[0].likes %>€</h4>
+
+    <hr><br>
+    
+    <h1 align="center">Editar Música</h1><br>
+<div class="editar">
+    <form id="editsong-form">
+        <label for="Titulo">Titulo</label> 
+        <input type="text" name="Titulo" id="Titulo" value="<%=song[0].title%>"><br>
+        <label for="Artista">Artista</label>
+        <input type="text" name="Artista" id="Artista" value="<%=song[0].artist%>"><br>
+        <label for="Genero">Género</label>
+        <input type="text" name="Genero" id="Genero" value="<%=song[0].genre%>"><br>
+        <label for="Album">Album</label>
+        <input type="text" name="Album" id="Album" value="<%=song[0].album%>"><br>
+        <label for="Duracao">Duração (segundos)</label>
+        <input type="text" name="Duracao" id="Duracao" value="<%=song[0].duration_seconds%>"><br>
+        <label for="data">Data de Lançamento</label>
+        <input type="date" name="data" id="data" value="<%=song[0].release_date%>"><br>
+        <label for="likes">Nº de Likes</label>
+        <input type="text" name="likes" id="likes" value="<%=song[0].likes%>"><br>
+        <button type="submit">Update</button>
+    </form>
+</div>
+    <br><br>
+    <script>
+        document.getElementById(`editsong-form`).addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            axios.put(`/api/songs/<%= song[0].id %>`, data)
+            .then(response => {
+                console.log('Sucess:', response.data);
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+<hr>
+
+<h1>Letra da Música</h1>
+
+<span id="lyrics"></span>
+
+<script>axios.get(`https://api.lyrics.ovh/v1/<%=song[0].artist%>/<%=song[0].title%>`, data)
+.then(response =>{
+  
+    response.data.lyrics = JSON.stringify(response.data.lyrics);
+    response.data.lyrics = response.data.lyrics.replace(new RegExp("\\\\n", "g"), "<br />");
+ 
+        document.getElementById("lyrics").innerHTML = response.data.lyrics;
+  
+})
+.catch((error)=>{ 
+  console.error('Error',error);
+});
+
+
+</script>
+
+<hr>
+<h1>Ver no Youtube</h1>
+
+<a href="https://www.youtube.com/results?search_query=<%=song[0].artist%>+<%=song[0].title%>" target="_blank">Ver no Youtube</a>
+</body>
+</html>

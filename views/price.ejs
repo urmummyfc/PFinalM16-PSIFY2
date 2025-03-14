@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Preço por Like</title>
+    <style>
+
+        * {
+
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+
+    </style>
+    </style>
+</head>
+<body>
+    <%- include("partials/header") %>
+
+    <h1>Editar preço por Like:</h1>
+
+    O preço por like atual é : <%= precoLike %>
+
+    <form id="like-form">
+        <label for="like">Preço por like:</label>
+        <input type="text" name="price" id="price" value="" required><br>
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <script>
+        document.getElementById(`like-form`).addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            axios.put(`/api/price`, data)
+            .then(response => {
+                console.log('Sucess:', response.data);
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

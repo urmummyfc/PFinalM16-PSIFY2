@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>PSIFY</title>
+    <style>
+        * {
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .song-id {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .song-id label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #555;
+            display: block;
+        }
+
+        .song-id input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .song-id input[type="text"]:focus {
+            border-color: #4CAF50;
+        }
+
+        .song-id button {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .song-id button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #ccc;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include("partials/header") %>
+
+    <h1 align="center">Bem-vindo à página inicial</h1>
+<main>
+ 
+
+    
+    <p>Obter uma música:</p>
+    <div class="song-id">
+        <form id="obterSong">
+            <label for="Music">ID da Musica: </label>
+            <input type="text" id="Music" name="id" required>
+            <button type="submit">Obter</button>
+        </form>
+    </div>
+</main>
+<footer>
+<p>Esta é a página inicial da aplicação PSIFY</p>
+<p>Utilize o menu acima para navegar pelas diferentes funcionalidades da aplicação</p>
+</footer>
+
+    <script>
+        document.getElementById(`obterSong`).addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            window.location.href = `http://localhost:3000/song/${data.id}`;
+    
+        });
+    </script>
+
+</body>
+</html>

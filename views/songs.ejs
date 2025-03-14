@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Listar Músicas</title>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e9e9e9;
+    }
+ 
+    button {
+        width: 100%;
+        padding: 15px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+</style>
+    </head>
+<body>
+    <%- include("partials/header") %>
+    
+    <h1>Lista de músicas disponíveis: </h1>
+    
+        <table border="2">
+            <tr>
+                <td>ID</td>
+                <td>Titulo</td>
+                <td>Artista</td>
+                <td>Album</td>
+                <td>Género</td>
+                <td>Duração (segundos)</td>
+                <td>Data de Lançamento</td>
+                <td>Likes</td>
+                <td>Criado a</td>
+                <td>Eliminar</td>
+            </tr>
+            <% for(let i=0 ;i < songs.length;i++){ %>
+            <td><%=songs[i].id%></td>
+            <td><%=songs[i].title%></td>
+            <td><%=songs[i].artist%></td>
+            <td><%=songs[i].album%></td>
+            <td><%=songs[i].genre%></td>
+            <td><%=songs[i].duration_seconds%></td>
+            <td><%=songs[i].release_date%></td>
+            <td><%=songs[i].likes%></td>
+            <td><%=songs[i].created_at%></td>
+            <td><button type="submit" onclick="deleteSong('<%= songs[i].id %>')">Eliminar</button></td>
+        </tr>
+        <%} %>
+    </table>
+    
+    <script>
+        function deleteSong(id) {
+        if (confirm('Tem certeza que deseja apagar esta música?')) {
+            axios.delete('/songs/' + id)
+            .then(response => {
+                console.log('Música apagada:', response.data);
+                alert('Música foi apagada')
+                location.reload();
+            })
+            .catch(error => {
+                alert('Erro ao apagar a música')
+                console.error('Erro ao apagar a música:', error);
+            });
+        }
+    }
+    </script>
+
+</body>
+</html>

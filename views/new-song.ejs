@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>PSIFY</title>
+    <style>
+
+    * {
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .adicionar {
+        background-color: #fff;
+        padding: 70px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: lightgreen; 
+        transform: translateY(-2px); 
+    }
+
+
+    button:active {
+        background-color: lightgreen; 
+        transform: translateY(1px); 
+    }
+
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+        
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    </style>
+</head>
+<body>
+    <%- include("partials/header") %>
+<hr>
+<h1 align="center">Adicionar Nova Música</h1>
+
+
+<div class="adicionar">
+    <form id="newSong-form">
+        <label for="Titulo">Titulo</label> 
+        <input type="text" name="Titulo" id="Titulo" value="" required><br>
+        <label for="Artista">Artista</label>
+        <input type="text" name="Artista" id="Artista" value="" required><br>
+        <label for="Genero">Género</label>
+        <input type="text" name="Genero" id="Genero" value="" required><br>
+        <label for="Album">Album</label>
+        <input type="text" name="Album" id="Album" value="" required><br>
+        <label for="Duracao">Duração (segundos)</label>
+        <input type="text" name="Duracao" id="Duracao" value="" required><br>
+        <label for="data">Data de Lançamento</label>
+        <input type="date" name="data" id="data" value="" required><br>
+        <label for="likes">Nº de Likes</label>
+        <input type="text" name="likes" id="likes" value="" required><br>
+        <button type="submit">Criar</button>
+    </form>
+</div>
+
+    <script>
+        document.getElementById(`newSong-form`).addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            axios.post(`/api/song`, data)
+            .then(response => {
+                console.log('Sucess:', response.data);
+                alert('Música criada com Sucesso!')
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    
+</body>
+</html>

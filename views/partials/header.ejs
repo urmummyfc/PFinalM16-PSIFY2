@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <style>
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; 
+  background-color: #ccc;
+}
+
+.menu button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ccc; 
+  color: white; 
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+
+.menu button:hover {
+  background-color: black; 
+  transform: translateY(-2px); 
+}
+
+
+.menu button:active {
+  background-color: black; 
+  transform: translateY(1px); 
+}
+
+
+.menu button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+  </style>
+</head>
+<body>
+  <div class="menu">
+      <form action="/" method="get">
+        <button type="submit">Home</button>
+      </form>
+      <form action="/songs" method="get">
+        <button type="submit">Listar músicas</button>
+      </form>
+      <form action="/new-song" method="get">
+        <button type="submit">Adicionar músicas</button>
+      </form>
+      <form action="/price" method="get">
+        <button type="submit">Gerir preço por like</button>
+      </form>
+  </div>
+
+</body>
+</html>
